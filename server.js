@@ -5,6 +5,25 @@ var util = require('util');
 var google = require('google');
 var zipcodes = require('zipcodes');
 
+  var winston = require('winston');
+
+  
+  require('winston-papertrail').Papertrail;
+
+  var winstonPapertrail = new winston.transports.Papertrail({
+    host: 'logs.papertrailapp.com',
+    port: 29959
+  })
+
+  winstonPapertrail.on('error', function(err) {
+    // Handle, report, or silently ignore connection errors and failures
+  });
+
+  var logger = new winston.Logger({
+    transports: [winstonPapertrail]
+  });
+
+
 
 var server = http.createServer(function (req, res) {
     if (req.method.toLowerCase() == 'get') {
@@ -39,28 +58,30 @@ function zipCodeNotFound(res) {
 
 function findCountyAndState(data, res) {
 
-	var zipcode = data.zipcode;
-//  console.log(data);
-  
-// console.log(zipcodes.lookup(zipcode));
-// 	var county = zcta.find({zip: zipcode}).county;
+var zipcode = data.zipcode;
 
 if(zipcodes.lookup(zipcode)){
     var city = zipcodes.lookup(zipcode).city;
     var state = zipcodes.lookup(zipcode).state;
-
-    console.log("zipcode:"    + zipcode);
-    console.log("city: "      + zipcodes.lookup(zipcode).city);
-    console.log("state: "     + zipcodes.lookup(zipcode).state);  
+    if(state == "OR")
+        { state = "Oregon"; }
 
 
-    google(city + "+" + state + 
-        " City Council Meeting Calendar", function (err, gRes){
-      if (err) console.error(err)
-     
+    // logger.info("zipcode:"    + zipcode);
+    // logger.info("city: "      + zipcodes.lookup(zipcode).city);
+    // logger.info("state: "     + zipcodes.lookup(zipcode).state);  
+
+    var searchPhrase = city + " " + state  + " " + 
+        "City Council Calendar";
+
+    google(searchPhrase, function (err, gRes){
+      
+      if (err) logger.info(err)
+    
+   
         var url = gRes.links[0].href;
        
-        console.log("url: " + url);
+        logger.info("url: " + url);
 
         res.writeHead(302, {
           'Location': url
