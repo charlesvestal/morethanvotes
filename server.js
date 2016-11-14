@@ -67,17 +67,34 @@ if(zipcodes.lookup(zipcode)){
         { state = "Oregon"; }
 
 
-    // logger.info("zipcode:"    + zipcode);
-    // logger.info("city: "      + zipcodes.lookup(zipcode).city);
-    // logger.info("state: "     + zipcodes.lookup(zipcode).state);  
+    console.log("zipcode:"    + zipcode);
+    console.log("city: "      + zipcodes.lookup(zipcode).city);
+    console.log("state: "     + zipcodes.lookup(zipcode).state);  
 
     var searchPhrase = city + " " + state  + " " + 
         "City Council Calendar";
 
+    console.log(searchPhrase);
+    searchFor(searchPhrase, res);
+    
+}
+else
+    {
+    var searchPhrase = data.zipcode + " " + 
+        "City Council Calendar";
+
+    console.log(searchPhrase);
+    searchFor(searchPhrase, res);
+}
+  	
+
+}
+
+
+function searchFor(searchPhrase, res) {
     google(searchPhrase, function (err, gRes){
       
       if (err) logger.info(err)
-    
    
         var url = gRes.links[0].href;
        
@@ -90,14 +107,6 @@ if(zipcodes.lookup(zipcode)){
  
 });
 }
-else
-    {
-        zipCodeNotFound(res);
-}
-  	
-
-}
-
 
 function processAllFieldsOfTheForm(req, res) {
     var form = new formidable.IncomingForm();
