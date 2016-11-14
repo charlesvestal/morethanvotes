@@ -4,6 +4,7 @@ var formidable = require("formidable");
 var util = require('util');
 var google = require('google');
 var zipcodes = require('zipcodes');
+var zcta = require("us-zcta-counties");
 
   var winston = require('winston');
 
@@ -60,28 +61,43 @@ function findCountyAndState(data, res) {
 
 var zipcode = data.zipcode;
 
+    console.log(data);
+
 if(zipcodes.lookup(zipcode)){
+
+    var dataType = data.dataType;
     var city = zipcodes.lookup(zipcode).city;
     var state = zipcodes.lookup(zipcode).state;
+    var county = zcta.find({zip: zipcode}).county;
+
     if(state == "OR")
         { state = "Oregon"; }
-
 
     console.log("zipcode:"    + zipcode);
     console.log("city: "      + zipcodes.lookup(zipcode).city);
     console.log("state: "     + zipcodes.lookup(zipcode).state);  
 
-    var searchPhrase = city + " " + state  + " " + 
+
+    if(dataType == "city") {
+        console.log("city");
+        var searchPhrase = city + " " + state  + " " + 
         "City Council Calendar";
+    }
+    if(dataType == "county") {
+        console.log("county");
+        var searchPhrase = county + " " + state  + " " + 
+        "Council Calendar";
+    }
 
     console.log(searchPhrase);
     searchFor(searchPhrase, res);
     
 }
+
 else
     {
     var searchPhrase = data.zipcode + " " + 
-        "City Council Calendar";
+        "Meetings Calendar";
 
     console.log(searchPhrase);
     searchFor(searchPhrase, res);
