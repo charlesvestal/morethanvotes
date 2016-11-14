@@ -43,7 +43,7 @@ function findCountyAndState(data, res) {
         
         res.write("For your zipcode " + zipcode +": </br> </br>");
 
-		google(county + " Meeting Calendar" , function (err, gRes){
+		google(city + " City Council Meeting Calendar" , function (err, gRes){
 		  if (err) console.error(err)
 		 
 		  for (var i = 0; i < 5; ++i) { 
