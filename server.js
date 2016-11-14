@@ -2,7 +2,7 @@ var http = require('http');
 var fs = require('fs');
 var formidable = require("formidable");
 var util = require('util');
-var zcta = require("us-zcta-counties");
+//var zcta = require("us-zcta-counties");
 var zipcodes = require('zipcodes');
 
 
@@ -14,7 +14,6 @@ var server = http.createServer(function (req, res) {
     }
 
 });
-
 
 
 function displayForm(res) {
@@ -33,12 +32,12 @@ function findCountyAndState(data, res) {
 
 	var zipcode = data.zipcode;
 	console.log(zipcode);
- 	var county = zcta.find({zip: zipcode}).county;
+// 	var county = zcta.find({zip: zipcode}).county;
   	var city = zipcodes.lookup(zipcode).city;
 
 
     res.writeHead(302, {
-      'Location': ' https://duckduckgo.com/?q=!ducky+' + city + " City Council Meeting Calendar"
+      'Location': ' https://duckduckgo.com/?q=!ducky+' + city + " City Council Meetings"
     });
     res.end();
 
