@@ -27,19 +27,39 @@ function displayForm(res) {
     });
 }
 
+function zipCodeNotFound(res) {
+     res.writeHead(200, {
+            'Content-Type': 'text/html',
+               
+        });
+        res.write("<p>Zip code not found. Sorry!</p>");
+        res.end();
+}
+
 
 function findCountyAndState(data, res) {
 
 	var zipcode = data.zipcode;
-	console.log(zipcode);
+//  console.log(data);
+//  console.log(zipcode);
+//  console.log(zipcodes.lookup(zipcode));
 // 	var county = zcta.find({zip: zipcode}).county;
-  	var city = zipcodes.lookup(zipcode).city;
 
+if(zipcodes.lookup(zipcode)){
+   
+    var city = zipcodes.lookup(zipcode).city;
+    var state = zipcodes.lookup(zipcode).state;
 
     res.writeHead(302, {
-      'Location': ' https://duckduckgo.com/?q=!ducky+' + city + " City Council Meetings"
+      'Location': ' https://duckduckgo.com/?q=!ducky+' + city + state + " City Council Meetings"
     });
     res.end();
+}
+else
+    {
+        zipCodeNotFound(res);
+}
+  	
 
 }
 
