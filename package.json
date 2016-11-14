@@ -1,0 +1,19 @@
+{
+  "name": "morethanvotes",
+  "version": "1.0.0",
+  "description": "A tool to help citizens find ways to better engage with their local governments.",
+  "main": "app.js",
+  "dependencies": {
+    "google-search": "^0.0.4",
+    "us-zcta-counties": "^0.0.2",
+    "readline": "^1.3.0",
+    "google": "^2.1.0",
+    "zipcodes": "^2.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
