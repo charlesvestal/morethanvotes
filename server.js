@@ -4,7 +4,6 @@ var formidable = require("formidable");
 var util = require('util');
 var zcta = require("us-zcta-counties");
 var zipcodes = require('zipcodes');
-var google = require('google')
 
 
 var server = http.createServer(function (req, res) {
@@ -37,26 +36,11 @@ function findCountyAndState(data, res) {
  	var county = zcta.find({zip: zipcode}).county;
   	var city = zipcodes.lookup(zipcode).city;
 
-  res.writeHead(200, {
-            'content-type': 'text/html'
-        });
-        
-        res.write("For your zipcode " + zipcode +": </br> </br>");
 
-		google(city + " City Council Meeting Calendar" , function (err, gRes){
-		  if (err) console.error(err)
-		 
-		  for (var i = 0; i < 5; ++i) { 
-		    var link = gRes.links[i];
-		  
-		     res.write("<a href=" + link.href + ">" + link.title + "</a> <br/>")
-		  
-		  }
-		 
-		 res.end();
-		})
-
-        
+    res.writeHead(302, {
+      'Location': ' https://duckduckgo.com/?q=!ducky+' + city + " City Council Meeting Calendar"
+    });
+    res.end();
 
 }
 
@@ -66,18 +50,6 @@ function processAllFieldsOfTheForm(req, res) {
 
     form.parse(req, function (err, fields, files) {
        findCountyAndState(fields, res);
-
-        //Store the data from the fields in your data store.
-        //The data store could be a file or database or any other store based
-        //on your application.
-        // res.writeHead(200, {
-        //     'content-type': 'text/plain'
-        // });
-        // res.write('received the data:\n\n');
-        // res.end(util.inspect({
-        //     fields: fields,
-        //     files: files
-        // }));
     });
 }
 
