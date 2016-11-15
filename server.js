@@ -46,6 +46,18 @@ app.post("/", function (req, res) {
 function findCountyAndState(data, res) {
 
 var zipcode = data.zipcode;
+
+console.log("zipcode entered is: " + zipcode);
+
+var isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zipcode);
+
+    console.log("Is this a valid zip? " + isValidZip);
+
+if(isValidZip) {
+    zipcode = zipcode.substr(0,5);
+    console.log("processed zipcode is: " + zipcode);
+}
+
 console.log(zcta.find({zip: zipcode}));
 
 if(zipcodes.lookup(zipcode)){
