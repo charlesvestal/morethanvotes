@@ -8,6 +8,7 @@ var zcta = require("us-zcta-counties");
 var express = require('express'); 
 var bodyParser = require('body-parser');
 var winston = require('winston');
+var madison = require('madison');
 
   
   require('winston-papertrail').Papertrail;
@@ -45,29 +46,37 @@ app.post("/", function (req, res) {
 function findCountyAndState(data, res) {
 
 var zipcode = data.zipcode;
+console.log(zcta.find({zip: zipcode}));
 
 if(zipcodes.lookup(zipcode)){
 
     var dataType = data.dataType;
     var city = zipcodes.lookup(zipcode).city;
     var state = zipcodes.lookup(zipcode).state;
-    var county = zcta.find({zip: zipcode}).county;
+    
+    if(zcta.find({zip: zipcode})){
+    	var county = zcta.find({zip: zipcode}).county;
+    } else {
+    	var county = city;
+    }
+    
+    var fullstate = madison.getStateNameSync(state);
 
     if(state == "OR")
         { state = "Oregon"; }
 
     console.log("zipcode:"    + zipcode);
-    console.log("city: "      + zipcodes.lookup(zipcode).city);
-    console.log("state: "     + zipcodes.lookup(zipcode).state);  
-
+    console.log("city: "      + city);
+    console.log("state: "     + state);  
+    console.log("county: "	  + county);
 
     if(dataType == "city") {
         var searchPhrase = city + " " + state  + " " + 
-        "City Council Calendar";
+        "City Council Calendar " + fullstate + " Agenda";
     }
     if(dataType == "county") {
         var searchPhrase = county + " " + state  + " " + 
-        "Council Calendar";
+        "Council Calendar " + fullstate + " Agenda";
     }
 
     console.log(searchPhrase);
@@ -78,7 +87,7 @@ if(zipcodes.lookup(zipcode)){
 else
     {
     var searchPhrase = data.zipcode + " " + 
-        "Meetings Calendar";
+        "Meetings Calendar Agenda";
 
     console.log(searchPhrase);
     searchFor(searchPhrase, res);

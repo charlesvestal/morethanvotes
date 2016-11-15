@@ -8,6 +8,7 @@
     "express": "^4.14.0",
     "formidable": "^1.0.17",
     "google": "^2.1.0",
+    "madison": "^1.0.1",
     "us-zcta-counties": "0.0.2",
     "winston": "^2.3.0",
     "winston-papertrail": "^1.0.4",
