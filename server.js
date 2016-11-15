@@ -72,7 +72,7 @@ if(zipcodes.lookup(zipcode)){
 
     if(dataType == "city") {
         var searchPhrase = city + " " + state  + " " + 
-        "City Council Calendar " + fullstate + " Agenda";
+        "(City | Village | Township)  Council Calendar " + fullstate + " Agenda";
     }
     if(dataType == "county") {
         var searchPhrase = county + " " + state  + " " + 
