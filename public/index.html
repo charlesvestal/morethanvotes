@@ -1,6 +1,23 @@
 <html>
 <head>
 <title>More Than Votes</title>
+<script>window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));</script>
+
 <link rel="stylesheet" type="text/css" href="css/normalize.css">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <style type="text/css">
@@ -70,7 +87,10 @@ color: white;
 
       </div>
   
-    <div id="footer"><a href="/faq.html">faq</a></br></br>made by <a href="http://twitter.com/charlesv">charles</a>.<br />want to help? <a href="https://github.com/charlesvestal/morethanvotes">feel free</a>.</div>
+    <div id="footer"><a href="/faq.html">faq</a></br></br>made by <a href="http://twitter.com/charlesv">charles</a>.<br />want to help? <a href="https://github.com/charlesvestal/morethanvotes">feel free</a>.<br /><br/> <a class="twitter-share-button"
+  href="https://twitter.com/intent/tweet?text=Sometimes%20voting%20isn't%20enough.%20Find%20your%20local%20city%20council%20and%20county%20meetings%20at&url=http://www.morethanvotes.com"
+  data-size="large">
+Tweet</a></div>
       
    </body>
 </html>
