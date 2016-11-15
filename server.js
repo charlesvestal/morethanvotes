@@ -5,8 +5,9 @@ var util = require('util');
 var google = require('google');
 var zipcodes = require('zipcodes');
 var zcta = require("us-zcta-counties");
-
-  var winston = require('winston');
+var express = require('express'); 
+var bodyParser = require('body-parser');
+var winston = require('winston');
 
   
   require('winston-papertrail').Papertrail;
@@ -24,44 +25,26 @@ var zcta = require("us-zcta-counties");
     transports: [winstonPapertrail]
   });
 
+var app = express();
+
+app.use(express.static('public'))
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(bodyParser.json());
 
 
-var server = http.createServer(function (req, res) {
-    if (req.method.toLowerCase() == 'get') {
-        displayForm(res);
-    } else if (req.method.toLowerCase() == 'post') {
-        processAllFieldsOfTheForm(req, res);
-    }
-
+app.post("/", function (req, res) {
+    var data = req.body;
+    findCountyAndState(data, res) 
 });
-
-
-function displayForm(res) {
-    fs.readFile('form.html', function (err, data) {
-        res.writeHead(200, {
-            'Content-Type': 'text/html',
-                'Content-Length': data.length
-        });
-        res.write(data);
-        res.end();
-    });
-}
-
-function zipCodeNotFound(res) {
-     res.writeHead(200, {
-            'Content-Type': 'text/html',
-               
-        });
-        res.write("<p>Zip code not found. Sorry!</p>");
-        res.end();
-}
 
 
 function findCountyAndState(data, res) {
 
 var zipcode = data.zipcode;
-
-    console.log(data);
 
 if(zipcodes.lookup(zipcode)){
 
@@ -79,12 +62,10 @@ if(zipcodes.lookup(zipcode)){
 
 
     if(dataType == "city") {
-        console.log("city");
         var searchPhrase = city + " " + state  + " " + 
         "City Council Calendar";
     }
     if(dataType == "county") {
-        console.log("county");
         var searchPhrase = county + " " + state  + " " + 
         "Council Calendar";
     }
@@ -101,36 +82,25 @@ else
 
     console.log(searchPhrase);
     searchFor(searchPhrase, res);
-}
-  	
-
+} 	
 }
 
 
 function searchFor(searchPhrase, res) {
+
     google(searchPhrase, function (err, gRes){
       
       if (err) logger.info(err)
    
         var url = gRes.links[0].href;
        
-        logger.info("url: " + url);
-
-        res.writeHead(302, {
-          'Location': url
-        });
+        console.log("url: " + url);
+        res.redirect(url);
+    
         res.end();
  
 });
 }
 
-function processAllFieldsOfTheForm(req, res) {
-    var form = new formidable.IncomingForm();
-
-    form.parse(req, function (err, fields, files) {
-       findCountyAndState(fields, res);
-    });
-}
-
-server.listen(1185);
+app.listen(1185);
 console.log("server listening on 1185");
