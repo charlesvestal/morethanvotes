@@ -1,11 +1,57 @@
 <html>
-   <body>
-      <div style="text-align: center">
+<head>
+<link rel="stylesheet" type="text/css" href="css/normalize.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<style type="text/css">
+
+fieldset {
+    border: 0;
+}
+
+#card-form {
+	    display: flex;
+    align-items: center;
+    	text-align:center;
+}
+
+#card-form * {
+	margin:10px;
+}
+.card {
+	    display: flex;
+    align-items: center;
+    background-color: #f9f6f1;
+    color:black;
+}
+
+body { 
+color: white; 
+}
+
+#header {
+	margin 10px: 
+}
+
+#header-inner {
+	font-size:2em;
+	text-align:right;
+	width:280px;
+}
+
+</style>
+</head>
+   <body class="ter-bg-l padding-1">
+  <div class="col-1of2 padding-1" id="header">
+	  <div id="header-inner" class="pull-right bold"><br />
+	  Sometimes voting isn't enough. Find your local city or council meetings. <br/> <br /> Show up.
+	  </div>
+	  </div>
+  <div class="col-1of2 padding-1 "><div class="card" id="card-form">
       <form action="" method="post" enctype="multipart/form-data">
          <fieldset>
             <label for="name">Enter your zip code:</label> <br />
             <input type="text" id="zipcode" name="zipcode" placeholder="Zip code" /> <br />
-            <input type="radio" name="dataType" value="city" checked> City<br>
+            <input type="radio" name="dataType" value="city" checked> City
   			<input type="radio" name="dataType" value="county"> County<br>
   
             <input type="submit" value="Get Involved" /> <br />
@@ -14,7 +60,9 @@
 		</span>
          </fieldset>
       </form>
-
-      </div>
+      </div>	</div>
+  
+    
+      
    </body>
 </html>
